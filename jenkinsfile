@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                script {
+                    echo "Cloning the repository..."
+                    checkout scm
+                }
+            }
+        }
+
+        stage('List Files') {
+            steps {
+                script {
+                    echo "Listing files in the workspace..."
+                    sh 'ls -l'
+                }
+            }
+        }
+
+        stage('Run Script') {
+            steps {
+                script {
+                    echo "Executing script.sh..."
+                    sh 'chmod +x script.sh && ./script.sh'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline executed successfully!"
+        }
+        failure {
+            echo "Pipeline failed!"
+        }
+    }
+}
